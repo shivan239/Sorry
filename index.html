@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Apology Just for You</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* Configure Tailwind to use a romantic color palette */
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-pink': '#FFC0CB',
+                        'secondary-rose': '#D291BC',
+                        'accent-gold': '#FFD700',
+                        'bg-light': '#FFF0F5',
+                    },
+                    fontFamily: {
+                        script: ['Pacifico', 'cursive'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    keyframes: {
+                        // Custom animation for the food button acknowledgment
+                        bounce: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-5px)' },
+                        }
+                    },
+                    animation: {
+                        // Applying custom bounce animation
+                        bounce: 'bounce 1s ease-in-out infinite',
+                    }
+                }
+            }
+        }
+
+        /* =========================================================
+        IMPORTANT: REPLACE THE URL BELOW WITH A LINK TO HER PHOTO
+        =========================================================
+        */
+        .photo-card {
+            background-image: url('/siaa.jpg'); /* <-- REPLACE THIS URL */
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 10px 30px rgba(210, 145, 188, 0.6);
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .heart-pulse {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        /* Animation for the floating 'I'm Sorry' notes (Upwards float) */
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-300px) rotate(10deg); opacity: 0; }
+        }
+
+        .floating-note {
+            position: absolute;
+            color: #c92440;
+            font-family: 'Pacifico', cursive;
+            font-size: 1.5rem;
+            animation: floatUp 4s ease-out forwards;
+            opacity: 0;
+            user-select: none;
+            pointer-events: none;
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
+        }
+        
+        /* === Teddy Bear Animation Styles === */
+        @keyframes sway {
+            0% { transform: translateY(0) rotate(-3deg); }
+            50% { transform: translateY(-10px) rotate(3deg); }
+            100% { transform: translateY(0) rotate(-3deg); }
+        }
+
+        .teddy-float {
+            animation: sway 4s ease-in-out infinite;
+        }
+
+        /* === Flower Rain Animation Styles === */
+        @keyframes rain {
+            0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+        
+        .raining-flower {
+            position: fixed; /* Fixed to rain over the whole viewport */
+            top: -50px;
+            font-size: 2rem;
+            pointer-events: none;
+            user-select: none;
+            animation: rain linear forwards;
+            z-index: 50;
+            text-shadow: 0 0 5px rgba(255, 192, 203, 0.5); /* Soft pink glow */
+        }
+        
+        /* Button Style */
+        .rain-button {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(210, 145, 188, 0.7);
+        }
+        .rain-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(210, 145, 188, 0.9);
+        }
+        .rain-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(210, 145, 188, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-bg-light min-h-screen flex items-center justify-center p-4 font-sans relative">
+
+    <!-- Teddy Bear and Speech Bubble Container - Uses 'hidden' class for guaranteed initial invisibility -->
+    <div id="teddy-speech-container" class="absolute top-4 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center opacity-0 transition-opacity duration-1000 hidden">
+        
+        <!-- Speech Bubble - Pink background, White script font text -->
+        <div id="teddy-speech" class="bg-primary-pink text-white text-lg font-script py-2 px-4 rounded-xl rounded-bl-none shadow-xl mb-1 transform scale-0 origin-bottom transition-transform duration-500"style="color:red;">
+            Please forgive him!
+        </div>
+        
+        <!-- Teddy Bear Icon -->
+        <span class="text-6xl md:text-7xl">
+            🧸
+        </span>
+    </div>
+
+    <div id="apology-container" class="w-full max-w-md bg-white p-6 md:p-10 rounded-3xl shadow-2xl text-center transition-all duration-500 hover:shadow-primary-pink/50 relative">
+
+        <!-- Initial Apology Header -->
+        <h1 id="initial-message" class="text-4xl md:text-5xl font-script text-secondary-rose mb-8 transition-opacity duration-500">
+            For My Dearest [siaa]
+        </h1>
+
+        <!-- Photo Card & Interactive Heart -->
+        <div id="photo-area" 
+             class="relative w-40 h-40 md:w-48 md:h-48 photo-card rounded-full mx-auto mb-6 flex items-center justify-center cursor-pointer transform hover:scale-[1.02]" 
+             > 
+            
+            <div id="heart-button" class="heart-pulse bg-primary-pink p-3 rounded-full shadow-lg text-white transition-transform duration-300 hover:scale-110 active:scale-95">
+                <!-- SVG Heart Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 md:w-10 md:h-10">
+                    <path d="M11.645 20.91l-.007-.003-.022-.012a15.408 15.408 0 01-2.64-1.396C6.726 17.273 4.5 15.11 4.5 12.164c0-3.178 2.527-5.467 5.25-5.467 1.056 0 2.054.348 2.89 1.045l.135.124a1.765 1.765 0 00.374 0l.136-.124c.835-.697 1.833-1.045 2.89-1.045 2.723 0 5.25 2.289 5.25 5.467 0 2.947-2.226 5.11-4.484 7.348A15.44 15.44 0 0112 21.003h-.355z"/>
+                </svg>
+            </div>
+            <span id="click-prompt" class="absolute -bottom-6 text-sm text-secondary-rose font-medium mt-1">Tap the heart to read</span>
+        </div>
+
+        <!-- HIDDEN CONTAINER FOR APOLOGY TEXT AND INTERACTIVE ELEMENTS -->
+        <div id="apology-wrapper" class="hidden mt-4">
+            <div id="apology-text" class="text-gray-700 text-lg md:text-xl font-sans leading-relaxed">
+                <p class="mb-4">
+                    I am truly, deeply sorry for what I said/did. I know I messed up, and seeing you upset has been the absolute worst.
+                    You are the most amazing, kind, and brilliant person I know, and hurting you was never my intention.
+                </p>
+                <p>
+                    Please know that I value you more than words can say. I hope you can find it in your heart to forgive me. Let's talk soon? ❤️
+                </p>
+            </div>
+            
+            <!-- NEW: Food Choice Section -->
+            <div class="mt-8 pt-4 border-t border-primary-pink/50">
+                <p class="text-xl font-semibold text-secondary-rose mb-4">
+                    But first, a very serious question... 😉
+                </p>
+                <p id="food-question" class="text-2xl font-script text-gray-800 mb-4"style="color:red;">
+                    Momo or Kurkure?
+                </p>
+                <div id="food-buttons" class="flex justify-center space-x-4">
+                    <button onclick="handleFoodChoice('Momo 🥟')" class="bg-primary-pink hover:bg-secondary-rose text-white font-bold py-3 px-6 rounded-full transition-all duration-300 shadow-lg"style="color:red;">
+                        Momo 🥟
+                    </button>
+                    <button onclick="handleFoodChoice('Kurkure 🌶️')" class="bg-primary-pink hover:bg-secondary-rose text-white font-bold py-3 px-6 rounded-full transition-all duration-300 shadow-lg"style="color:red;">
+                        Kurkure 🌶️
+                    </button>
+                </div>
+                <p id="food-response" class="text-lg text-green-600 mt-4 font-semibold hidden">
+                    <span id="response-text"></span>
+                </p>
+            </div>
+            
+            <!-- Rain Flowers Button -->
+            <button id="rain-flowers-button" 
+                    class="rain-button mt-6 px-6 py-3 bg-secondary-rose text-white font-bold rounded-full text-lg transition-all duration-500 scale-100">
+                Tap to Rain Flowers! 🌹
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // Check if the apology has been revealed yet
+        let isApologyRevealed = false; 
+
+        // Main click handler for single-tap (message reveal)
+        function handlePhotoClick() {
+            console.log("CLICK: handlePhotoClick triggered."); 
+            
+            if (!isApologyRevealed) {
+                revealApology();
+            }
+        }
+        
+        // Function to handle the food choice
+        function handleFoodChoice(choice) {
+            const foodButtons = document.getElementById('food-buttons');
+            const foodQuestion = document.getElementById('food-question');
+            const foodResponse = document.getElementById('food-response');
+            const responseText = document.getElementById('response-text');
+            const rainButton = document.getElementById('rain-flowers-button');
+
+            // 1. Hide the question and buttons
+            foodButtons.classList.add('hidden');
+            foodQuestion.classList.add('hidden');
+            
+            // 2. Show the response message
+            responseText.textContent = `A great choice! I'll buy you ${choice} later. Now for the surprise...`;
+            foodResponse.classList.remove('hidden');
+
+            // 3. Make the flower rain button visually prominent after the choice
+            rainButton.classList.add('bg-accent-gold', 'text-gray-800', 'animate-bounce', 'shadow-2xl'); 
+            rainButton.classList.remove('bg-secondary-rose', 'text-white');
+            rainButton.textContent = "Tap NOW for the Flower Surprise! 💖";
+            
+            // Stop the constant bounce animation after 1.5s
+            setTimeout(() => {
+                rainButton.classList.remove('animate-bounce');
+            }, 1500);
+        }
+
+        // Function to create the rain animation
+        function rainFlowers() {
+            const flowers = ['🌸', '🌷', '💖', '✨', '💐', '❤️'];
+            const count = 30; // Number of items to drop
+            
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const flower = document.createElement('span');
+                    // Pick a random flower/emoji
+                    flower.textContent = flowers[Math.floor(Math.random() * flowers.length)]; 
+                    flower.classList.add('raining-flower');
+                    
+                    // Random horizontal position (0% to 100% viewport width)
+                    flower.style.left = `${Math.random() * 100}vw`; 
+                    
+                    // Randomize duration and delay for staggered, natural look
+                    const duration = 3 + Math.random() * 3; // 3 to 6 seconds
+                    const delay = Math.random() * 1; // 0 to 1 second start delay
+                    
+                    flower.style.animationDuration = `${duration}s`;
+                    flower.style.animationDelay = `${delay}s`;
+
+                    document.body.appendChild(flower);
+
+                    // Clean up the element after the animation is finished
+                    setTimeout(() => {
+                        flower.remove();
+                    }, (duration + delay) * 1000);
+
+                }, i * 50); // Small delay between flower creation for staggering effect
+            }
+        }
+
+        // This function handles the visual transition and animation when the heart is first clicked
+        function revealApology() {
+            if (isApologyRevealed) return;
+            isApologyRevealed = true;
+
+            const apologyWrapper = document.getElementById('apology-wrapper');
+            const initialMessage = document.getElementById('initial-message');
+            const heartButton = document.getElementById('heart-button');
+            const clickPrompt = document.getElementById('click-prompt');
+            
+            const teddySpeechContainer = document.getElementById('teddy-speech-container');
+            const teddySpeech = document.getElementById('teddy-speech'); 
+            
+            // 1. Reveal the apology text and button
+            apologyWrapper.classList.remove('hidden'); 
+            
+            // 2. Change the header/prompt text
+            initialMessage.textContent = "I'm Sorry, My Love.";
+            clickPrompt.textContent = "Answer the question below!"; 
+
+            // 3. Stop the heart pulse and scale it down
+            heartButton.classList.remove('heart-pulse');
+            heartButton.style.transform = 'scale(1.2)';
+            
+            // 4. Reveal and animate the teddy bear and its speech bubble
+            teddySpeechContainer.classList.remove('hidden'); 
+            teddySpeechContainer.classList.add('teddy-float', 'opacity-100'); 
+
+            // Animate the speech bubble to "pop" into view after a slight delay
+            setTimeout(() => {
+                 teddySpeech.style.transform = 'scale(1)'; 
+            }, 500); 
+            
+            // 5. Create floating animated notes (only on initial reveal)
+            const notes = ["I was wrong", "Forgive me?", "I miss you", "My heart hurts"];
+            const container = document.getElementById('apology-container');
+            
+            notes.forEach((text, index) => {
+                const note = document.createElement('div');
+                note.textContent = text;
+                note.classList.add('floating-note', 'absolute');
+                
+                note.style.left = `${Math.random() * 100}%`;
+                note.style.bottom = '10px';
+                note.style.animationDelay = `${index * 0.4}s`; 
+                note.style.transform = `rotate(${Math.random() * 20 - 10}deg)`;
+
+                container.appendChild(note);
+
+                setTimeout(() => {
+                    note.style.opacity = 1;
+                    note.style.animationPlayState = 'running';
+                }, 50);
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+             // Attach event listeners to elements once the DOM is fully loaded
+            const photoArea = document.getElementById('photo-area');
+            const rainButton = document.getElementById('rain-flowers-button');
+
+            if (photoArea) {
+                // Attach both click and touchstart events for max compatibility on mobile
+                photoArea.addEventListener('click', handlePhotoClick); 
+                photoArea.addEventListener('touchstart', (e) => {
+                    e.preventDefault(); 
+                    handlePhotoClick();
+                }); 
+                console.log("SUCCESS: Click/Touch listeners attached to photo area."); 
+            } else {
+                console.error("ERROR: Photo area element not found. Event listener could not be attached.");
+            }
+            
+            if (rainButton) {
+                rainButton.addEventListener('click', rainFlowers);
+                console.log("SUCCESS: Click listener attached to Rain Flowers button.");
+            }
+        });
+    </script>
+</body>
+</html>
